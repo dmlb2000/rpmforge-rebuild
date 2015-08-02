@@ -1,6 +1,12 @@
-from centos:centos7
+FROM centos:centos7
 
-run yum -y update && \
+RUN yum -y update && \
     yum -y install http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm && \
-    yum -y install rpm-build yum-utils
+    yum -y install rpm-build yum-utils curl tar gzip
+ENV RPMFUSION_PACKAGE rpmfusion-free-release
+ENV RPMFUSION_ROOT free
+ENV RPMFUSION_VERSION F-20
+RUN mkdir /build
+RUN curl http://cvs.rpmfusion.org/viewvc/rpms/${RPMFUSION_PACKAGE}/${RPMFUSION_VERSION}/?root=${RPMFUSION_ROOT}&view=tar | tar -C /build -xzf -
+
 
